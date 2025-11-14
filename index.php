@@ -1,7 +1,17 @@
 <?php
 session_start();
-session_unset();
-session_destroy();
+require_once 'game_functions.php';
+
+/*
+ * When the Start Game button is clicked, this same page
+ * receives a POST. We initialize the game and send the
+ * player straight to the briefcase selection screen.
+ */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    initialize_game();
+    header("Location: briefcase.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,11 +34,10 @@ session_destroy();
         <section class="section">
             <h2>Game Overview</h2>
             <p>
-                Select one briefcase to protect as your own. Open the remaining
-                briefcases in suspenseful rounds while an algorithmic Banker
-                watches the board and sends you calculated offers. Will you
-                accept a guaranteed deal, or risk everything for what might be
-                in your briefcase?
+                Select one briefcase to protect as your own. Open the remaining briefcases in
+                suspenseful rounds while an algorithmic Banker watches the board and sends you
+                calculated offers. Will you accept a guaranteed deal, or risk everything for
+                what might be in your briefcase?
             </p>
         </section>
 
@@ -38,13 +47,14 @@ session_destroy();
                 <li>Choose a briefcase on the next screen to keep as your case.</li>
                 <li>Open briefcases each round to reveal and remove values.</li>
                 <li>After each round the Banker sends an offer based on remaining values.</li>
-                <li>Market events and mid game twists can boost or cut remaining values.</li>
+                <li>Market events and twists can boost or cut remaining values.</li>
                 <li>Choose DEAL to take the offer or NO DEAL to continue playing.</li>
                 <li>At the end, your final winnings and full statistics are revealed.</li>
             </ol>
         </section>
 
-        <form action="setup.php" method="post" class="center">
+        <!-- Same page handles the POST -->
+        <form method="post" class="center">
             <button type="submit" class="btn-primary">Start Game</button>
         </form>
     </main>
